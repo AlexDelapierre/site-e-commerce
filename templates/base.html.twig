@@ -2,18 +2,26 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Welcome!{% endblock %} - Site e-commerce Symfony 6</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+        {# Penser à rajouter la balise meta pour le responsive #}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+         <!-- Feuilles de styles -->
+        {# La fonction asset() est une fonction twig qui permet de préciser le chemin relatif du dossier public #}
+        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+        {% block stylesheets %}{% endblock %}
+        <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
+
+        <!-- Fichiers JS -->
+        {# Ne pas oublier de mattre l'attribut defer pour ne pas que le js de Bootstrap démarre avant d'avoir charger le dom #}
+        <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"defer></script>
+        {% block javascripts %}{% endblock %}
+        <script src="{{ asset('assets/js/scripts.js') }}"defer></script>
     </head>
     <body>
+         {% include "_partials/_navbar.html.twig" %}
         {% block body %}{% endblock %}
+        {% include "_partials/_footer.html.twig" %}
     </body>
 </html>
