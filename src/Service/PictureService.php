@@ -113,5 +113,4 @@ class PictureService
     }
     return false;
   }
-   
 }

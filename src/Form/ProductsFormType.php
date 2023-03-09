@@ -7,6 +7,7 @@ use App\Entity\Products;
 use App\Repository\CategoriesRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -36,6 +37,13 @@ class ProductsFormType extends AbstractType
                         ->where('category.parent IS NOT NULL')
                         ->orderBy('category.name', 'ASC'); 
                 }
+            ])
+            ->add('image', FileType::class, [
+                'label' => false,
+                'multiple' => true,
+                //Symfony ne va pas vérifier si on a l'équivalent dans l'entité avec mapped
+                'mapped' => false, 
+                'required' => false
             ])
         ;
     }
