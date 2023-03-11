@@ -8,8 +8,12 @@ use App\Repository\CategoriesRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\Positive;
 
 class ProductsFormType extends AbstractType
 {
@@ -20,8 +24,14 @@ class ProductsFormType extends AbstractType
                 'label' => 'Nom'
             ])
             ->add('description')
-            ->add('price', options:[
-                'label' => 'prix'
+            ->add('price', MoneyType::class, options:[
+                'label' => 'prix',
+                'divisor' => 100,
+                'constraints' => [
+                    new Positive(
+                        message: 'Le prix ne peut être négatif'
+                    )
+                ] 
             ])
             ->add('stock', options:[
                 'label' => 'Unités en stock'
@@ -40,10 +50,20 @@ class ProductsFormType extends AbstractType
             ])
             ->add('image', FileType::class, [
                 'label' => false,
+                //La contrainte multiple permet de dire que c'est un tableau d'image
                 'multiple' => true,
                 //Symfony ne va pas vérifier si on a l'équivalent dans l'entité avec mapped
                 'mapped' => false, 
-                'required' => false
+                'required' => false,
+                'constraints' => [
+                    // En cas d'image multiple, on doit encapsuler new Image() dans new All() pour éviter une erreur
+                    new All(
+                        new Image([
+                            'maxWidth' => 1280,
+                            'maxWidthMessage' => 'L\'image doit faire {{ max_width }} pixels de large au maximum'
+                        ])
+                    )
+                ]
             ])
         ;
     }

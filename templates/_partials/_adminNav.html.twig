@@ -1,93 +1,32 @@
 <aside class="col-2 border border-light bg-white p-2">
-  <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
-    <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-      <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-      <span class="fs-5 fw-semibold">Administration</span>
-    </a>
-    <ul class="list-unstyled ps-0">
 
-      <li class="mb-1">
-        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-          Galerie d'images 
-        </button>
-        <div class="collapse" id="home-collapse">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Liste des images</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Ajouter une image</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Modifier une image</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Supprimer une image</a></li>
-          </ul>
-        </div>
-      </li>
+  <article class="card mb-3">
+    <div class="card-header">
+      Catégories  
+    </div>
+    <div class="card-body">
+      <p><a href="{{ path('admin_categories_index') }}">Liste des catégories</a></p>
+      <p><a href="">Ajouter une catégorie</a></p>
+    </div>
+  </article>
 
-      <li class="mb-1">
-        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-          Carte 
-        </button>
-        <div class="collapse" id="dashboard-collapse">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Liste des plats</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Ajouter un plat</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Modifier un plat</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Supprimer un plat</a></li>
-          </ul>
-        </div>
-      </li>
+  <article class="card mb-3">
+    <div class="card-header">
+      Produits
+    </div>
+    <div class="card-body">
+      <p><a href="{{ path('admin_products_index') }}">Liste des produits</a></p>
+      <p><a href="{{ path('admin_products_add') }}">Ajouter un produit</a></p>
+    </div>
+  </article>
 
-      <li class="mb-1">
-        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-          Menus 
-        </button>
-        <div class="collapse" id="orders-collapse">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Liste des menus</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Ajouter un menu</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Modifier un menu</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Supprimer un menu</a></li>
-          </ul>
-        </div>
-      </li>
+  <article class="card mb-3">
+    <div class="card-header">
+      Utilisateurs
+    </div>
+    <div class="card-body">
+      <p><a href="{{ path('admin_users_index') }}">Liste des utilisateurs</a></p>
+    </div>
+  </article>
 
-      <li class="mb-1">
-        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-          Formules 
-        </button>
-        <div class="collapse" id="orders-collapse">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Liste des formules</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Ajouter une formule</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Modifier une formule</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Supprimer une formule</a></li>
-          </ul>
-        </div>
-      </li>
-
-      <li class="mb-1">
-        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-          Réservations 
-        </button>
-        <div class="collapse" id="orders-collapse">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Liste des réservations</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Ajouter une réservation</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Modifier une réservation</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Supprimer une réservation</a></li>
-          </ul>
-        </div>
-      </li>
-      
-      <li class="mb-1">
-        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-          Horaires
-        </button>
-        <div class="collapse" id="account-collapse">
-          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Afficher les horaires</a></li>
-            <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Modifier les horaires</a></li>
-          </ul>
-        </div>
-      </li>
-      <li class="border-top my-3"></li>
-    </ul>
-  </div>
 </aside>
