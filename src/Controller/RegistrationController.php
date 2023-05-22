@@ -6,6 +6,7 @@ use App\Entity\Users;
 use App\Form\RegistrationFormType;
 use App\Security\UsersAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Service\SendMailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UsersAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, 
+    UserAuthenticatorInterface $userAuthenticator, UsersAuthenticator $authenticator, 
+    EntityManagerInterface $entityManager, SendMailService $mail): Response
     {
         $user = new Users();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -35,6 +38,15 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
+
+            // On envoie un mail
+            // $mail->send(
+            //     'no-reply@mon-site.net',
+            //     $user->getEmail(),
+            //     'Activation de votre compte sur le site e-commerce',
+            //     'register',
+            //     compact('user')
+            // );
 
             return $userAuthenticator->authenticateUser(
                 $user,

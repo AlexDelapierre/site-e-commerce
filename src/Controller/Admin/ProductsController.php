@@ -47,7 +47,7 @@ class ProductsController extends AbstractController
             $images = $productForm->get('image')->getData();
             
             foreach($images as $image){
-                // On définit le dossier de déstination
+                // On définit le dossier de destination
                 $folder = 'products';
 
                 // On appel le service d'ajout
