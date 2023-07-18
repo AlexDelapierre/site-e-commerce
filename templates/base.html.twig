@@ -22,18 +22,22 @@
     <body>
          {% include "_partials/_navbar.html.twig" %}
 
-         {% if app.user and app.user.isVerified == false %}
-            <div class="alert alert-warning alert-dismissible" role="alert">
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                <div class="alert-message">
-                    <strong>Votre compte n'est pas activé</strong>, renvoyer le lien d'activation
-                </div>
-            </div>
-         {% endif %}
-         
-         {% include "_partials/_flash.html.twig" %}
+        <main>
 
-        {% block body %}{% endblock %}
+            {% if app.user and app.user.isVerified == false %}
+                <div class="alert alert-warning alert-dismissible" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <div class="alert-message">
+                        <strong>Votre compte n'est pas activé</strong>, renvoyer le lien d'activation
+                    </div>
+                </div>
+            {% endif %}
+            
+            {% include "_partials/_flash.html.twig" %}
+
+            {% block body %}{% endblock %}
+
+        </main>
         
         {% include "_partials/_footer.html.twig" %}
     </body>
