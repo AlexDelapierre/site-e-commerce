@@ -18,14 +18,15 @@ class CategoriesController extends AbstractController
         $products = $category->getProducts();
 
         //La fonction compact() va chercher $product et en fait un tableau associatif
-        return $this->render('categories/list.html.twig', compact('category',
-    'products'));
+        return $this->render('categories/list.html.twig', compact('category', 'products'));
 
-        //Autre syntaxe possible sans le compact()
-        // return $this->render('categories/list.html.twig', [
-        //     'category' => $category,
-        //     'products' => $products
-        // ]);
+        /*
+        Autre syntaxe possible sans le compact()
+         return $this->render('categories/list.html.twig', [
+             'category' => $category,
+             'products' => $products
+         ]);
+        */
     }
 
     #[Route('/')]
