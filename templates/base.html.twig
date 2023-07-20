@@ -22,7 +22,7 @@
     <body>
          {% include "_partials/_navbar.html.twig" %}
 
-        <main>
+        <main class="container">
 
             {% if app.user and app.user.isVerified == false %}
                 <div class="alert alert-warning alert-dismissible" role="alert">
