@@ -54,7 +54,7 @@ class ProductsFormType extends AbstractType
                 'multiple' => true,
                 //Symfony ne va pas vérifier si on a l'équivalent dans l'entité avec mapped
                 'mapped' => false, 
-                'required' => false,
+                'required' => true,
                 'constraints' => [
                     // En cas d'image multiple, on doit encapsuler new Image() dans new All() pour éviter une erreur
                     new All(
