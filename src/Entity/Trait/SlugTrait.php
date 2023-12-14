@@ -1,4 +1,5 @@
 <?php
+/*Optimisation des entités et DataFixtures */
 
 namespace App\Entity\Trait;
 
