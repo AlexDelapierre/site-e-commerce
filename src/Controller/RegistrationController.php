@@ -4,10 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Users;
 use App\Form\RegistrationFormType;
+use App\Repository\UsersRepository;
 use App\Security\UsersAuthenticator;
 use App\Service\JWTService;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\SendMailService;
+use DateTimeImmutable;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,5 +78,74 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+    }
+
+    #[Route('/verif/{token}', name: 'verify_user')]
+    public function verifyUser($token, JWTService $jwt, UsersRepository $usersRepository, EntityManagerInterface $em): Response
+    {
+        // On vérifie si le token est valide, n'a pas expiré et n'a pas été modifié.
+        if ($jwt->isValid($token) && !$jwt->isExpired($token) && $jwt->check($token, $this->getParameter('app.jwtsecret'))) {
+            // On récupère le payload
+            $payload = $jwt->getPayload($token);
+
+            // On récupère le user du token
+            $user = $usersRepository->find($payload['user_id']);
+
+            // On vérifie que l'utilisateur existe et n'a pas encore activé son compte
+            if ($user && !$user->getIsVerified()) {
+                $user->setIsVerified(true);
+                $em->flush($user);
+                $this->addFlash('success', 'Utilisateur activé');
+                return $this->redirectToRoute('profile_index');
+            }
+        }
+        // Ici un problème se pose dans le token
+        $this->addFlash('danger', 'Le token est invalide ou a expiré');
+        return $this->redirectToRoute('app_login');
+    }
+
+    #[Route('/renvoiverif', name: 'resend_verif')]
+    public function resendVerif(JWTService $jwt, SendMailService $mail, UsersRepository $usersRepository): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            $this->addFlash('danger', 'Vous devez être connecté pour accéder à cette page');
+            return $this->redirectToRoute('app_login');
+        }
+
+        if ($user->getIsVerified()) {
+            $this->addFlash('warning', 'Cet utilisateur est déjà activé');
+            return $this->redirectToRoute('profile_index');
+        }
+
+        // On génère le JWT de l'utilisateur 
+        // On crée le header
+        $header = [
+            'typ' => 'JWT',
+            'alg' => 'HS256'
+        ];
+
+        // On crée le Payload
+        $payload = [
+            'user_id' => $user->getId()
+        ];
+
+        // On génère le token
+        $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
+
+        // On envoie un mail
+        $mail->send(
+            'no-reply@mon-site.net',
+            $user->getEmail(),
+            'Activation de votre compte sur le site e-commerce',
+            'register',
+            // compact() Crée un tableau avec le contenu de user à l'intérieur
+            compact('user', 'token')
+        ); 
+
+        $this->addFlash('success', 'Email de vérification envoyé');
+        return $this->redirectToRoute('profile_index');
+
     }
 }
