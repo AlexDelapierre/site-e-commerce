@@ -68,7 +68,6 @@ class SecurityController extends AbstractController
 
                 // On génère un lien de réinitialisation du mot de passe
                 $url = $this->generateUrl('reset_pass', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-                dd($url);
 
                 //On crée les données du mail
                 $context = compact('url', 'user');
