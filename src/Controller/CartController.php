@@ -30,6 +30,8 @@ class CartController extends AbstractController
       $total += $product->getPrice() * $quantity; 
     }
 
+    return $this->render('cart/index.html.twig', compact('data', 'total'));
+
   }  
 
   #[Route('/add/{id}', name: 'add')]
@@ -54,5 +56,56 @@ class CartController extends AbstractController
     //On redirige vers la page du panier
     return $this->redirectToRoute('cart_index');
   }
-  
+ 
+  #[Route('/remove/{id}', name: 'remove')]
+  public function remove(Products $product, SessionInterface $session)
+  {
+    //On récupère l'id du produit
+    $id = $product->getId();
+
+    //On récupère le panier existant
+    $panier = $session->get('panier', []);
+
+    //On retire le produit du panier s'il n'y a qu'1 exemplaire
+    //Sinon on décrémente sa quantité
+    if(!empty($panier[$id])){
+      if($panier[$id] > 1){
+        $panier[$id] --;
+      }else{
+        unset($panier[$id]);
+      }
+    }
+
+    $session->set('panier', $panier);
+    
+    //On redirige vers la page du panier
+    return $this->redirectToRoute('cart_index');
+  }
+
+  #[Route('/delete/{id}', name: 'delete')]
+  public function delete(Products $product, SessionInterface $session)
+  {
+    //On récupère l'id du produit
+    $id = $product->getId();
+
+    //On récupère le panier existant
+    $panier = $session->get('panier', []);
+
+    if(!empty($panier[$id])){
+        unset($panier[$id]);
+    }
+
+    $session->set('panier', $panier);
+     
+    //On redirige vers la page du panier
+    return $this->redirectToRoute('cart_index');
+  }
+
+  #[Route('/empty', name: 'empty')]
+  public function empty(SessionInterface $session)
+  {
+    $session->remove('panier');
+
+    return $this->redirectToRoute('cart_index');
+  }  
 }
