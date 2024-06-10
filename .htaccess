@@ -1,0 +1,12 @@
+# Active le mode de réécriture des URL pour faire marcher Symfony/PHP
+#de la même maniere que XAMP reconfigure apache pour faire fonctionner Symfony/PHP
+RewriteEngine on
+
+# condition 1 : Si l'URL ne correspond pas à un fichier existant
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# condition 2 : Si l'URL ne correspond pas à un dossier existant
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Alors tout rediriger sur Symfony
+RewriteRule ^.*$ /index.php [L,QSA]
