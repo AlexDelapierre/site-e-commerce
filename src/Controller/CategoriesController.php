@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoriesController extends AbstractController
 {
     #[Route('/{slug}', name: 'list')]
-    public function details(Categories $category, ProductsRepository $productsRepository,
+    public function details(Categories $category,CategoriesRepository $categoriesRepository ,ProductsRepository $productsRepository,
     Request $request): Response
     {
         //On va chercher le numéro de page dans l'url
@@ -23,8 +23,11 @@ class CategoriesController extends AbstractController
         //On va chercher la liste des produits de la catégorie
         $products = $productsRepository->findProductsPaginated($page, $category->getSlug(), 3);
 
+        //On va chercher la liste des catégories pour l'onglet catégories de la navbar
+        $categories = $categoriesRepository->findBy([], ['categoryOrder' => 'asc']);
+
         //La fonction compact() va chercher $product et en fait un tableau associatif
-        return $this->render('categories/list.html.twig', compact('category', 'products'));
+        return $this->render('categories/list.html.twig', compact('category', 'products', 'categories'));
         /*
         Autre syntaxe possible sans le compact()
          return $this->render('categories/list.html.twig', [

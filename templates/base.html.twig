@@ -20,10 +20,14 @@
         <script src="{{ asset('assets/js/scripts.js') }}"defer></script>
     </head>
     <body>
-         {% include "_partials/_navbar.html.twig" %}
+    
+        <header>
+            {% block header %}   
+                {% include "_partials/_navbar.html.twig" %}
+            {% endblock %}
+        </header>
 
         <main class="container">
-
             {#Vérification d'adresse email sans bundle#}
             {% if app.user and app.user.isVerified == false %}
                 <div class="alert alert-warning alert-dismissible" role="alert">
@@ -38,9 +42,11 @@
             {% include "_partials/_flash.html.twig" %}
 
             {% block body %}{% endblock %}
-
-        </main>
+        </main> 
         
-        {% include "_partials/_footer.html.twig" %}
+        {% block footer %}
+            {% include "_partials/_footer.html.twig" %}  
+        {% endblock %}
+        
     </body>
 </html>

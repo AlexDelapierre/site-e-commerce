@@ -14,8 +14,9 @@
             Catégories
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Informatique</a></li>
-            <li><a class="dropdown-item" href="#">Mode</a></li>
+            {% for category in categories %}
+            <li><a class="dropdown-item" href="{{ path('categories_list', {slug: category.slug}) }}"> {{category.name}}</a></li>
+            {% endfor %}
             {# <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li> #}
           </ul>
