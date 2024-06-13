@@ -4,6 +4,9 @@ namespace App\Service;
 
 use App\Repository\CategoriesRepository;
 
+/**
+ * Ce service fournit une méthode pour récupérer les catégories ordonnées.
+ */
 class CategoriesService
 {
     private $categoriesRepository;

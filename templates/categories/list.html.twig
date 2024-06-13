@@ -6,29 +6,45 @@
   <main class="container">
     <section >
       <h1>Liste des produits de la catégorie {{ category.name }}</h1>
-      <div class="row">
-        {% for product in products.data %}
-        <div class="col-md-4 my-2 d-flex">
-          <article class="card h-100">
 
-            {% if product.images is not empty %}
-              <img src="{{ asset('assets/uploads/products/mini/300X300-' ~ product.images[0].name ) }}" class="card-img-top" alt="{{ product.name }}">
-            {% endif %}
-            <div class="card-body">
-              <h2 class="card-title">{{ product.name }}</h2>
-              <p class="card-text">{{ product.description }}</p>
-              <a href="{{ path('products_details', 
-              {"slug": product.slug}) }}" class="btn btn-primary">Voir les détails</a>
-            </div>
-          </article>
-        </div>     
-        {% endfor %}
-      </div>
-        {% set path = 'categories_list' %}
-        {% set slug = category.slug %}
-        {% set pages = products.pages %}
-        {% set currentPage = products.page %}
-        {% include "_partials/_pagination.html.twig" %}
+      {% if products is not empty %}
+        <div class="row">
+          {% for product in products.data %}
+          <div class="col-md-4 my-2 d-flex">
+            <article class="card h-100">
+              {% if product.images is not empty %}
+                <img src="{{ asset('assets/uploads/products/mini/300X300-' ~ product.images[0].name ) }}" class="card-img-top" alt="{{ product.name }}">
+              {% endif %}
+              <div class="card-body">
+                <h2 class="card-title">{{ product.name }}</h2>
+                <p class="card-text">{{ product.description }}</p>
+                <a href="{{ path('products_details', 
+                {"slug": product.slug}) }}" class="btn btn-primary">Voir les détails</a>
+              </div>
+            </article>
+          </div>     
+          {% endfor %}
+        </div>
+          {% set path = 'categories_list' %}
+          {% set slug = category.slug %}
+          {% set pages = products.pages %}
+          {% set currentPage = products.page %}
+          {% include "_partials/_pagination.html.twig" %}
+
+      {% else %}
+        <div class="row">
+          {# <p>Il n'y a pas de produits appartenant à cette catégorie en stock actuellement</p> #}
+          <div class="col-md-4 my-2 d-flex">
+            <article class="card h-100">
+              <img src="" class="card-img-top" alt="">
+              <div class="card-body">
+                <h2 class="card-title"></h2>
+                <p class="card-text">Il n'y a pas de produits appartenant à cette catégorie en stock actuellement</p>
+              </div>
+            </article>
+          </div>  
+        </div>
+      {% endif %}    
     </section>
   </main>
 {% endblock %}

@@ -7,6 +7,11 @@ parameters:
   images_directory: "%kernel.project_dir%/public/assets/uploads/"
   app.jwtsecret: '%env(JWT_SECRET)%'
 
+  # Paramètres globaux de l'application
+    app.global_parameters:
+        site_name: "site-e-commerce"
+        contact_email: "contact@example.com"
+
 services:
   # default configuration for services in *this* file
   _defaults:
@@ -24,3 +29,17 @@ services:
 
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
+
+  # Service CategoriesService pour récupérer les catégories
+  App\Service\CategoriesService:
+        arguments:
+            $categoriesRepository: '@App\Repository\CategoriesRepository' 
+
+  # Extension Twig pour rendre les catégories disponibles dans tous les templates
+  App\Twig\AppExtension:
+        arguments:
+            $categoriesService: '@App\Service\CategoriesService'
+        tags:
+            - { name: 'twig.extension' }             
+
+  

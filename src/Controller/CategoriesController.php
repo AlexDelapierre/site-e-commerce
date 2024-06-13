@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Categories;
-use App\Repository\CategoriesRepository;
 use App\Repository\ProductsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoriesController extends AbstractController
 {
     #[Route('/{slug}', name: 'list')]
-    public function details(Categories $category,CategoriesRepository $categoriesRepository ,ProductsRepository $productsRepository,
+    public function details(Categories $category, ProductsRepository $productsRepository,
     Request $request): Response
     {
         //On va chercher le numéro de page dans l'url
@@ -23,11 +22,8 @@ class CategoriesController extends AbstractController
         //On va chercher la liste des produits de la catégorie
         $products = $productsRepository->findProductsPaginated($page, $category->getSlug(), 3);
 
-        //On va chercher la liste des catégories pour l'onglet catégories de la navbar
-        $categories = $categoriesRepository->findBy([], ['categoryOrder' => 'asc']);
-
         //La fonction compact() va chercher $product et en fait un tableau associatif
-        return $this->render('categories/list.html.twig', compact('category', 'products', 'categories'));
+        return $this->render('categories/list.html.twig', compact('category', 'products'));
         /*
         Autre syntaxe possible sans le compact()
          return $this->render('categories/list.html.twig', [
@@ -35,21 +31,5 @@ class CategoriesController extends AbstractController
              'products' => $products
          ]);
         */
-    }
-
-    #[Route('/')]
-    public function test(CategoriesRepository $categoriesRepository)
-    {
-        $categories = $categoriesRepository->find(3);
-
-        $products = $categories->getProducts();
-
-         // Utilisez dump() pour afficher le contenu de $products dans le terminal
-         dump($products);
-
-         // Vous pouvez également retourner une réponse pour afficher quelque chose dans le navigateur si nécessaire
-         return new Response('Informations affichées dans le terminal.');
-        
-
     }
 }
