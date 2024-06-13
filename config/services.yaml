@@ -8,9 +8,9 @@ parameters:
   app.jwtsecret: '%env(JWT_SECRET)%'
 
   # Paramètres globaux de l'application
-    app.global_parameters:
-        site_name: "site-e-commerce"
-        contact_email: "contact@example.com"
+  app.global_parameters:
+      site_name: "site-e-commerce"
+      contact_email: "contact@example.com"
 
 services:
   # default configuration for services in *this* file
