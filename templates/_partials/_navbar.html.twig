@@ -9,18 +9,28 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{{ path('main') }}">Accueil</a>
         </li>
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Catégories
+          Categories
           </a>
           <ul class="dropdown-menu">
             {% for category in categories %}
-            <li><a class="dropdown-item" href="{{ path('categories_list', {slug: category.slug}) }}"> {{category.name}}</a></li>
+              {% if category.parent is null %}
+                <li><a class="dropdown-item" href="#"> {{category.name}}</a>
+                  <ul>
+                    {% for subcategory in categories %}
+                      {% if subcategory.parent is not null and subcategory.parent.id == category.id %}
+                        <li><a href="{{ path('categories_list', {slug: subcategory.slug}) }}">{{ subcategory.name }}</a></li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                </li>
+              {% endif %}
             {% endfor %}
-            {# <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li> #}
           </ul>
         </li>
+
         {# <li class="nav-item">
           <a class="nav-link disabled">Disabled</a>
         </li> #}
