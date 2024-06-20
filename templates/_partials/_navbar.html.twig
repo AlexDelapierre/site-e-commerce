@@ -42,11 +42,6 @@
               <a class="nav-link" href="{{ path('admin_index') }}">Administration</a>
             </li>
           {% endif %}
-          
-
-          {# <li class="nav-item">
-            <a class="nav-link" href="#">Mon compte</a>
-          </li> #}
           <li class="nav-item">
             <a class="nav-link" href="{{ path('cart_index') }}" class="icon">
               <img src="{{ asset('assets/icons/png/shopping-basket.png') }}" alt="account icon" class="icon">
@@ -57,9 +52,6 @@
               <img src="{{ asset('assets/icons/png/avatar.png') }}" alt="account icon" class="icon">
             </a>
           </li> 
-          <li class="nav-item">
-            <a class="nav-link" href="{{ path('app_logout') }}">Me déconnecter</a>
-          </li>
         {% else %}
           {# <li class="nav-item">
             <a class="nav-link" href="{{ path('app_register') }}">M'inscrire</a>
