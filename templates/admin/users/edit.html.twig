@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block body %}
+    <div class="h1Admin">
+    <h1>Client</h1>
+        <a href="{{ path('admin_users_index') }}" class="btn btn-outline-primary">Retour</a>
+        {# <div class="deleteButton">
+            {{ include('admin/user/_delete_form.html.twig') }}
+        </div>   #}
+  </div>
+    {{ include('admin/users/_form.html.twig', {'button_label': 'Modifier'}) }}
+{% endblock %}

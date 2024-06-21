@@ -5,7 +5,7 @@
     <a href="{{ path('profile_index') }}">Mon compte </a>
     </div>
     <div class="card-body">
-      <p><a href="#">Mes informations</a></p>
+      <p><a href="{{ path('profile_edit', {'id': user.id}) }}">Mes informations</a></p>
       <p><a href="{{ path('profile_orders') }}">Mes commandes</a></p>
       <p><a href="{{ path('app_logout') }}">Me déconnecter</a></p>
     </div>
