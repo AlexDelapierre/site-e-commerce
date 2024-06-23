@@ -9,6 +9,7 @@ use App\Security\UsersAuthenticator;
 use App\Service\JWTService;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\SendMailService;
+use App\Service\SmtpChecker;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +25,8 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, 
     UserAuthenticatorInterface $userAuthenticator, UsersAuthenticator $authenticator, 
-    EntityManagerInterface $entityManager, SendMailService $mail, JWTService $jwt): Response
+    EntityManagerInterface $entityManager, SendMailService $mail, JWTService $jwt, 
+    SmtpChecker $smtpChecker): Response
     {
         $user = new Users();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -41,32 +43,35 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
+            
             // do anything else you need here, like send an email
-
-            // On génère le JWT de l'utilisateur 
-            // On crée le header
-            $header = [
-                'typ' => 'JWT',
-                'alg' => 'HS256'
-            ];
-
-            // On crée le Payload
-            $payload = [
-                'user_id' => $user->getId()
-            ];
-
-            // On génère le token
-            $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
-
-            // On envoie un mail
-            $mail->send(
-                'no-reply@mon-site.net',
-                $user->getEmail(),
-                'Activation de votre compte sur le site e-commerce',
-                'register',
-                // compact() Crée un tableau avec le contenu de user à l'intérieur
-                compact('user', 'token')
-            );
+            // On vérifie la connexion avec le seveur SMTP grâce au service SmtpChecker
+            if ($smtpChecker->checkConnection()) {
+                // On génère le JWT de l'utilisateur 
+                // On crée le header
+                $header = [
+                    'typ' => 'JWT',
+                    'alg' => 'HS256'
+                ];
+    
+                // On crée le Payload
+                $payload = [
+                    'user_id' => $user->getId()
+                ];
+    
+                // On génère le token
+                $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
+    
+                // On envoie un mail
+                $mail->send(
+                    'no-reply@mon-site.net',
+                    $user->getEmail(),
+                    'Activation de votre compte sur le site e-commerce',
+                    'register',
+                    // compact() Crée un tableau avec le contenu de user à l'intérieur
+                    compact('user', 'token')
+                );
+            }
 
             return $userAuthenticator->authenticateUser(
                 $user,

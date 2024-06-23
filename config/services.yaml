@@ -40,6 +40,13 @@ services:
         arguments:
             $categoriesService: '@App\Service\CategoriesService'
         tags:
-            - { name: 'twig.extension' }             
+            - { name: 'twig.extension' }     
+
+  # Service pour tester une connexion avec un serveur SMTP
+  App\Service\SmtpChecker:
+        arguments:
+            $host: '%env(SMTP_HOST)%'
+            $port: '%env(int:SMTP_PORT)%'
+            $timeout: 10        
 
   
