@@ -36,20 +36,10 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('profile_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/users/edit.html.twig', [
+        return $this->renderForm('profile/edit.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
-    }
-
-    #[Route('/{id}', name: 'delete', methods: ['POST'])]
-    public function delete(Request $request, Users $user, UsersRepository $userRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $userRepository->remove($user, true);
-        }
-
-        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/commandes', name: 'orders')]
@@ -58,5 +48,15 @@ class ProfileController extends AbstractController
         return $this->render('profile/orders.html.twig', [
             'controller_name' => 'Commandes de l\'utilisateur',
         ]);
+    }
+    
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
+    public function delete(Request $request, Users $user, UsersRepository $userRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $userRepository->remove($user, true);
+        }
+
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 }
