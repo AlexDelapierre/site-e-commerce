@@ -3,12 +3,14 @@
 {% block title %}Edit User{% endblock %}
 
 {% block body %}
-    <div class="h1Admin">
-    <h1>Mes informations</h1>
-        <a href="{{ path('profile_index') }}" class="btn btn-outline-primary">Retour</a>
-        {# <div class="deleteButton">
-            {{ include('admin/user/_delete_form.html.twig') }}
-        </div>   #}
+  <div class="container">
+    <div class="row">
+      {% include "_partials/_profileNav.html.twig" %}
+      <main class="col-9 border border-light bg-white p-2">
+        <h1>Mes informations</h1>
+        {{ include('admin/users/_form.html.twig', {'button_label': 'Modifier'}) }}
+        {# <a href="{{ path('profile_index') }}" class="btn btn-outline-primary">Retour</a> #}
+      </main>
+    </div>
   </div>
-    {{ include('admin/users/_form.html.twig', {'button_label': 'Modifier'}) }}
 {% endblock %}
