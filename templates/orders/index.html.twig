@@ -1,20 +1,33 @@
-{% extends 'base.html.twig' %}
+{% extends "base.html.twig" %}
 
-{% block title %}Hello OrdersController!{% endblock %}
+{% block title %}Commandes{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+  <div class="container">
+    <div class="row">
+      {% include "_partials/_profileNav.html.twig" %}
+      <main class="col-9 border border-light bg-white p-2">
+        <h1>Historique de vos commandes</h1>
+        <p>Vous trouverez ici la liste de vos commandes passées depuis la création de votre compte</p>
+          {% for order in orders %}
+            <h2>
+              Commande {{order.reference}} du {{order.createdAt|date('d-m-Y')}}
+            </h2>
+            <ul>
+            {% for detail in order.ordersDetails %}
+              <li>
+                Nom du produit : {{ detail.products.name }}
+                Quantité : {{ detail.quantity }}
+                {# Prix unitaire : {{ detail.products.price }}
+                Prix : {{ detail.Price }} #}
+              </li>
+            {% endfor %}
+          </ul>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+          {% endfor %}
+         <h2></h2> 
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'F:/Logiciels/xampp/htdocs/site_e-commerce/src/Controller/OrdersController.php'|file_link(0) }}">src/Controller/OrdersController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'F:/Logiciels/xampp/htdocs/site_e-commerce/templates/orders/index.html.twig'|file_link(0) }}">templates/orders/index.html.twig</a></code></li>
-    </ul>
-</div>
+      </main>
+    </div>
+  </div>
 {% endblock %}

@@ -24,9 +24,10 @@ class ProfileController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Users $user, UsersRepository $usersRepository): Response
+    #[Route('/edit', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, UsersRepository $usersRepository): Response
     {
+        $user = $this->getUser();
         $form = $this->createForm(UsersFormType::class, $user);
         $form->handleRequest($request);
 
@@ -42,15 +43,15 @@ class ProfileController extends AbstractController
         ]);
     }
 
-    #[Route('/commandes', name: 'orders')]
-    public function orders(): Response
-    {
-        $user = $this->getUser();
-        return $this->render('profile/orders.html.twig', [
-            'controller_name' => 'Commandes de l\'utilisateur',
-            'user' => $user,
-        ]);
-    }
+    // #[Route('/commandes', name: 'orders')]
+    // public function orders(): Response
+    // {
+    //     $user = $this->getUser();
+    //     return $this->render('profile/orders.html.twig', [
+    //         'controller_name' => 'Commandes de l\'utilisateur',
+    //         'user' => $user,
+    //     ]);
+    // }
     
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Users $user, UsersRepository $userRepository): Response
