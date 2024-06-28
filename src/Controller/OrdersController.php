@@ -25,36 +25,7 @@ class OrdersController extends AbstractController
         // Utilisation du repository pour récupérer un tableau contenant les commandes de l'utilisateur connecté
         $orders = $ordersRepository->findBy(['users' => $user]);
 
-        // foreach ($orders as $key => $order) {
-        //     dd($order->getOrdersDetails());
-        // };
-        
-        // On récupère un tableau contenant le détail des commandes
-        $ordersDetails = [];
-        foreach ($orders as $order) {
-            $ordersDetails[] = $order->getOrdersDetails();
-        }
-         
-        /*
-        // Itérer sur les détails de la commande pour accéder à leurs propriétés
-        foreach ($ordersDetails as $detail) {
-            // Exemple d'accès à une propriété (supposons que chaque détail a une méthode getName())
-            $detailName = $detail->getName();
-            
-            // Ajouter les détails à un tableau pour l'affichage ou le traitement ultérieur
-            $ordersDetails[] = [
-                'name' => $detailName,
-                // Autres propriétés à ajouter si nécessaire
-            ];
-        }
-        */
-    
-        // Vérifie si il y a des commandes
-        if (!$orders) {
-            throw $this->createNotFoundException('Commande non trouvée');
-        }
-
-        return $this->render('orders/index.html.twig', compact('orders', 'ordersDetails'));
+        return $this->render('orders/index.html.twig', compact('orders'));
     }
     
     #[Route('/ajout', name: 'add')]
@@ -85,11 +56,11 @@ class OrdersController extends AbstractController
             //On va chercher le produit
             $product = $productsRepository->find($item);
             
-            $price = $product->getPrice();
+            $totalPrice = $product->getPrice() * $quantity;
 
             //On crée le détail de commande
             $orderDetails->setProducts($product);
-            $orderDetails->setPrice($price);
+            $orderDetails->setTotalPrice($totalPrice);
             $orderDetails->setQuantity($quantity);
             
             $order->addOrdersDetail($orderDetails);

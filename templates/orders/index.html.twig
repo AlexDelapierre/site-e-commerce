@@ -9,24 +9,25 @@
       <main class="col-9 border border-light bg-white p-2">
         <h1>Historique de vos commandes</h1>
         <p>Vous trouverez ici la liste de vos commandes passées depuis la création de votre compte</p>
-          {% for order in orders %}
-            <h2>
-              Commande {{order.reference}} du {{order.createdAt|date('d-m-Y')}}
-            </h2>
-            <ul>
-            {% for detail in order.ordersDetails %}
-              <li>
-                Nom du produit : {{ detail.products.name }}
-                Quantité : {{ detail.quantity }}
-                {# Prix unitaire : {{ detail.products.price }}
-                Prix : {{ detail.Price }} #}
-              </li>
+          {% if orders %}
+            {% for order in orders %}
+              <h2>
+                Commande {{order.reference}} du {{order.createdAt|date('d-m-Y')}}
+              </h2>
+              <ul>
+                {% for detail in order.ordersDetails %}
+                  <li>
+                    Nom du produit : {{ detail.products.name }}
+                    Quantité : {{ detail.quantity }}
+                    Prix unitaire : {{ detail.products.price / 100 }} 
+                    Prix total : {{ detail.totalPrice / 100 }} 
+                  </li>
+                {% endfor %}
+              </ul>
             {% endfor %}
-          </ul>
-
-          {% endfor %}
-         <h2></h2> 
-
+          {% else %}  
+            <h2>Aucunes commandes enregistrées</h2>
+          {% endif %}
       </main>
     </div>
   </div>

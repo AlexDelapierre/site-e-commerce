@@ -12,7 +12,7 @@ class OrdersDetails
     private ?int $quantity = null;
 
     #[ORM\Column]
-    private ?int $price = null;
+    private ?int $totalPrice = null;
 
     #[ORM\Id]
     #[ORM\ManyToOne(inversedBy: 'ordersDetails')]
@@ -36,14 +36,14 @@ class OrdersDetails
         return $this;
     }
 
-    public function getPrice(): ?int
+    public function getTotalPrice(): ?int
     {
-        return $this->price;
+        return $this->totalPrice;
     }
 
-    public function setPrice(int $price): self
+    public function setTotalPrice(int $totalPrice): self
     {
-        $this->price = $price;
+        $this->totalPrice = $totalPrice;
 
         return $this;
     }
